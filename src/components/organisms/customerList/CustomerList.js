@@ -1,5 +1,6 @@
 import React from 'react'
 import { Container, Table } from 'react-bootstrap'
+import PropTypes from "prop-types";
 
 export default function CustomerList(props) {
     return (
@@ -33,3 +34,14 @@ export default function CustomerList(props) {
         </Container>
     )
 }
+
+CustomerList.propTypes = {
+    /**
+     * Object with data of all customers to display
+     */
+    customerDatas: PropTypes.object.isRequired,
+    /**
+     * Object with all customers to display
+     */
+    customers: PropTypes.object.isRequired
+};

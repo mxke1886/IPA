@@ -1,6 +1,5 @@
 import React from 'react'
 import InputField from '../../atoms/inputField/InputField';
-import { Container, Spinner } from 'react-bootstrap';
 import Select from '../../atoms/select/Select';
 import TextButton from "../../atoms/buttons/textButton/TextButton"
 import MyDatePicker from '../../molecules/myDatePicker/MyDatePicker';
@@ -8,8 +7,9 @@ import { Formik, Form as FormikForm } from 'formik';
 import * as Yup from "yup";
 import Section from '../../atoms/section/Section'
 import Toast from '../../atoms/toast/Toast'
+import PropTypes from "prop-types";
 
-export default function CustomerForm(props) {
+export default function CustomerDetailsForm(props) {
 
     const [showToast, setShowToast] = React.useState(false)
 
@@ -99,3 +99,10 @@ export default function CustomerForm(props) {
         </Formik>
     )
 }
+
+CustomerDetailsForm.propTypes = {
+    /**
+     * Customer object of which data gets displayed
+     */
+    customer: PropTypes.object.isRequired
+};

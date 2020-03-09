@@ -2,12 +2,16 @@ import React from 'react'
 import InputField from '../../atoms/inputField/InputField';
 import { Col, Row } from 'react-bootstrap';
 import Select from '../../atoms/select/Select';
-import TextButton from "../../atoms/buttons/textButton/TextButton"
+import TextButton from "../../atoms/textButton/TextButton"
 import { Formik, Form as FormikForm } from 'formik';
 import * as Yup from "yup";
 import Section from '../../atoms/section/Section'
+import PropTypes from "prop-types";
 
-export default function CustomerForm(props) {
+/**
+ * First part of form to display a customers contact data
+ */
+export default function CustomerContactForm(props) {
 
     return (
         <Formik
@@ -22,7 +26,9 @@ export default function CustomerForm(props) {
                 telephone_private: props.customerData.telephone_private,
                 telephone_mobile: props.customerData.telephone_mobile,
                 telephone_business: props.customerData.telephone_business,
-                reachable_by: props.customerData.reachable_by
+                reachable_by: props.customerData.reachable_by,
+                countries: props.countries,
+                regions: props.regions
             }}
             onSubmit={values => {
                 console.log(values)
@@ -98,7 +104,7 @@ export default function CustomerForm(props) {
                                             onChange={handleChange}
                                         />
                                         <Select
-                                            options={props.regions}
+                                            options={values.regions}
                                             name={'region'}
                                             label={'Kanton'}
                                             value={values.region}
@@ -106,7 +112,7 @@ export default function CustomerForm(props) {
                                             disabled={values.country !== 'Schweiz'}
                                         />
                                         <Select
-                                            options={props.countries}
+                                            options={values.countries}
                                             name={'country'}
                                             label={'Land'}
                                             value={values.country}
@@ -163,3 +169,18 @@ export default function CustomerForm(props) {
         </Formik>
     )
 }
+
+CustomerContactForm.propTypes = {
+    /**
+     * Customer Data object of which data gets displayed
+     */
+    customerData: PropTypes.object.isRequired,
+    /**
+     * Array containing all of Switzerlands regions
+     */
+    regions: PropTypes.array.isRequired,
+    /**
+     * Array containing every country in the world
+     */
+    countries: PropTypes.array.isRequired
+};

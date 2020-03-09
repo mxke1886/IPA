@@ -4,10 +4,7 @@ import PropTypes from "prop-types";
 import './TextButton.css';
 
 /**
- * A customizable Text Button with diffrent types
- *
- * If you want to add other React Bootstrap props of the Button you can just use them like you normaly do.
- *  You can find the possible props here: https://react-bootstrap.github.io/components/buttons/
+ * A customizable Text Button with different types
  */
 const TextButton = ({ action, align, ...props }) => {
   return (

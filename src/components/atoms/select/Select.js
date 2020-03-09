@@ -41,7 +41,7 @@ Select.propTypes = {
      */
     options: PropTypes.array.isRequired,
     /**
-     * Define the ID of the field which basically sets the label's "for" attribute and input's "id" attribute
+     * Define the ID of the field which basically sets the labels "for" attribute and inputs "id" attribute
      */
     name: PropTypes.string.isRequired
 };

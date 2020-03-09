@@ -5,6 +5,9 @@ import PropTypes from "prop-types";
 import "react-datepicker/dist/react-datepicker.css";
 import "./CustomDatePicker.css"
 
+/**
+ * Custom DatePicker for date inputs in form
+ */
 export default function CustomDatePicker(props) {
     return (
         <div>
