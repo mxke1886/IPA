@@ -1,8 +1,9 @@
 import React from 'react'
 import { Container, Table } from 'react-bootstrap'
 import PropTypes from "prop-types";
+import { withRouter } from 'react-router-dom';
 
-export default function CustomerList(props) {
+function CustomerList(props) {
     return (
         <Container>
             <Table striped bordered hover size="sm">
@@ -34,6 +35,7 @@ export default function CustomerList(props) {
         </Container>
     )
 }
+export default withRouter(CustomerList)
 
 CustomerList.propTypes = {
     /**

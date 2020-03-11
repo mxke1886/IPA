@@ -7,11 +7,14 @@ import { Formik, Form as FormikForm } from 'formik';
 import * as Yup from "yup";
 import Section from '../../atoms/section/Section'
 import PropTypes from "prop-types";
+import Toast from '../../atoms/toast/Toast';
 
 /**
  * First part of form to display a customers contact data
  */
 export default function CustomerContactForm(props) {
+
+    const [showToast, setShowToast] = React.useState(false)
 
     return (
         <Formik
@@ -32,6 +35,7 @@ export default function CustomerContactForm(props) {
             }}
             onSubmit={values => {
                 console.log(values)
+                setShowToast(true)
             }}
             validationSchema={Yup.object().shape({
                 email: Yup.string()
@@ -41,7 +45,6 @@ export default function CustomerContactForm(props) {
                     .required("Dieses Feld wird benötigt"),
                 postalCode: Yup.number()
                     .required("Dieses Feld wird benötigt")
-                    .test('len', 'Darf genau 4 Zahlen beinhalten', val => val.toString().length === 4)
                     .typeError("Darf keine Buchstaben beinhalten"),
                 city: Yup.string()
                     .required("Dieses Feld wird benötigt"),
@@ -70,11 +73,17 @@ export default function CustomerContactForm(props) {
                 const {
                     values,
                     handleChange,
-                    handleSubmit,
-                    errors
+                    handleSubmit
                 } = props;
                 return (
                         <FormikForm onSubmit={handleSubmit} className="formik-form">
+                            <Toast
+                                variant={"success"}
+                                show={showToast}
+                                onClose={() => setShowToast(false)}
+                                delay={2500}
+                                message={"Kontaktdaten wurden erfolgreich gespeichert"}
+                            />
                             <Section>
                                 <h3>Kontaktdaten</h3>
                                 <Row>
@@ -104,10 +113,10 @@ export default function CustomerContactForm(props) {
                                             onChange={handleChange}
                                         />
                                         <Select
-                                            options={values.regions}
+                                            options={values.country === 'Schweiz' ? values.regions : []}
                                             name={'region'}
                                             label={'Kanton'}
-                                            value={values.region}
+                                            value={values.country === 'Schweiz' ? values.region : null}
                                             onChange={handleChange}
                                             disabled={values.country !== 'Schweiz'}
                                         />
@@ -159,7 +168,7 @@ export default function CustomerContactForm(props) {
                                             value={values.reachable_by}
                                             onChange={handleChange}
                                         />
-                                        <TextButton action={() => Object.keys(errors).length === 0 ? console.log("saved") : null} align="right">Speichern</TextButton>
+                                        <TextButton type="submit" align="right">Speichern</TextButton>
                                     </Col>
                                 </Row>
                             </Section>

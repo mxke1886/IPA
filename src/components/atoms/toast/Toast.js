@@ -9,9 +9,11 @@ export default function Toast(props) {
 
     useEffect(() => {
         if (props.show === true) {
-            setTimeout(() => {
-                props.onClose()
-            }, props.delay);
+            if (props.delay) {
+                setTimeout(() => {
+                    props.onClose()
+                }, props.delay);
+            }
         }
     })
 
@@ -48,9 +50,9 @@ Toast.propTypes = {
      */
     onClose: PropTypes.func.isRequired,
     /**
-     * Amount of time (ms) that the Toast is visible
+     * Amount of time (ms) that the Toast is visible. Can be left empty, so Toast appears constantly.
      */
-    delay: PropTypes.number.isRequired,
+    delay: PropTypes.number,
     /**
      * For the position styling
      */

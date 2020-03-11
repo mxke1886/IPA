@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 
-
+/**
+ * Class to show error message when a major error occurs.
+ */
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
@@ -27,3 +29,4 @@ class ErrorBoundary extends Component {
   }  
 }
 export default ErrorBoundary;
+
