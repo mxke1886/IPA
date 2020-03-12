@@ -5,7 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 
 export default {
-  title: "atoms | Buttons / TextButton",
+  title: "atoms | TextButton",
   component: TextButton,
   decorators: [withA11y]
 };

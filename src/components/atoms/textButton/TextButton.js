@@ -22,7 +22,8 @@ const TextButton = ({ action, align, ...props }) => {
 export default TextButton
 
 TextButton.defaultProps = {
-  variant: "primary"
+  variant: "primary",
+  align: "left"
 };
 
 TextButton.propTypes = {
@@ -39,5 +40,13 @@ TextButton.propTypes = {
     "delete",
     "confirm",
     "info"
+  ]),
+  /**
+   * Define where the Button should be positioned
+   */
+  align: PropTypes.oneOf([
+    "left",
+    "center",
+    "right"
   ])
 };

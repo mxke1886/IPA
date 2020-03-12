@@ -103,9 +103,6 @@ export default function CustomerFormPage(props) {
             }}
         >
             {props => {
-                const {
-                    handleSubmit
-                } = props;
                 return (
                     isLoading ? <Container style={{ textAlign: "center" }}><Spinner animation="border" /></Container> :
                         <Container>

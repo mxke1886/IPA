@@ -41,9 +41,9 @@ CustomerList.propTypes = {
     /**
      * Object with data of all customers to display
      */
-    customerDatas: PropTypes.object.isRequired,
+    customerDatas: PropTypes.array.isRequired,
     /**
      * Object with all customers to display
      */
-    customers: PropTypes.object.isRequired
+    customers: PropTypes.array.isRequired
 };

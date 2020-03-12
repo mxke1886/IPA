@@ -13,7 +13,7 @@ export default {
 export const CustomDatePickers = () => (
     <Formik
         initialValues={{
-            birthday: ""
+            birthday: new Date()
         }}
     >
         {props => {
