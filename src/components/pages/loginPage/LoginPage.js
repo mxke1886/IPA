@@ -21,8 +21,8 @@ export default function LoginPage(props) {
     return (
         <Formik
             initialValues={{
-                email: "test@mail.ch",
-                password: "abcd"
+                email: "",
+                password: ""
             }}
             onSubmit={values => {
                 login(values.email, values.password)

@@ -1,13 +1,19 @@
 /* eslint-disable no-undef */
 describe('Admin can', () => {
-    it('change contact data and save', () => {
+    beforeEach(() => {
+        cy.clearLocalStorage();
         cy.visit('/login')
         cy.url().should('eq', 'http://localhost:3000/login')
+        cy.get('div[name="email"] > .cornered').clear().type("test@mail.ch")
+        cy.get('div[name="password"] > .cornered').clear().type("abcd")
         cy.get('.btn')
             .click()
         cy.url().should('eq', 'http://localhost:3000/customers')
         cy.get('tbody > :nth-child(1) > :nth-child(1)').click()
         cy.url().should('eq', 'http://localhost:3000/customers/1')
+    });
+
+    it('change contact data and save', () => {
         cy.get('div[name="address"] > .cornered').clear().type("Neue Strasse 20")
         cy.get('div[name="email"] > .cornered').clear().type("neue@email.ch")
         cy.get('.row > :nth-child(2) > .btn-container > .btn').click()
@@ -15,31 +21,62 @@ describe('Admin can', () => {
 
     })
     it('change personal data and save', () => {
-        cy.visit('/login')
-        cy.url().should('eq', 'http://localhost:3000/login')
-        cy.get('.btn')
-            .click()
-        cy.url().should('eq', 'http://localhost:3000/customers')
-        cy.get('tbody > :nth-child(1) > :nth-child(1)').click()
-        cy.url().should('eq', 'http://localhost:3000/customers/1')
         cy.get('div[name="firstName"] > .cornered').clear().type("VornameTest")
         cy.get('div[name="lastName"] > .cornered').clear().type("NachnameTest")
         cy.get('.section-light > .btn-container > .btn').click()
         expect(cy.get('.fade').should("have.text", "Persönliche Daten wurden erfolgreich gespeichert"))
 
     })
-    it('see an error message on save if a field is invalid', () => {
-        cy.visit('/login')
-        cy.url().should('eq', 'http://localhost:3000/login')
-        cy.get('.btn')
-            .click()
-        cy.url().should('eq', 'http://localhost:3000/customers')
-        cy.get('tbody > :nth-child(1) > :nth-child(1)').click()
-        cy.url().should('eq', 'http://localhost:3000/customers/1')
+    it('see an error message on save if any field is empty in personal data', () => {
         cy.get('div[name="firstName"] > .cornered').clear()
         cy.get('div[name="lastName"] > .cornered').clear()
         cy.get('.row > :nth-child(2) > :nth-child(6)').click()
         expect(cy.get('div[name="firstName"] > .invalid-feedback').should("have.text", "Dieses Feld wird benötigt"))
         expect(cy.get('div[name="lastName"] > .invalid-feedback').should("have.text", "Dieses Feld wird benötigt"))
+    })
+    it('see an error message on save if any field is empty in contact data', () => {
+        cy.get('div[name="address"] > .cornered').clear()
+        cy.get('div[name="postalCode"] > .cornered').clear()
+        cy.get('div[name="city"] > .cornered').clear()
+        cy.get('div[name="email"] > .cornered').clear()
+        cy.get('div[name="telephone_private"] > .cornered').clear()
+        cy.get('div[name="telephone_mobile"] > .cornered').clear()
+        cy.get('div[name="telephone_business"] > .cornered').clear()
+        cy.get('.row > :nth-child(2) > :nth-child(6)').click()
+        expect(cy.get('div[name="address"] > .invalid-feedback').should("have.text", "Dieses Feld wird benötigt"))
+        expect(cy.get('div[name="postalCode"] > .invalid-feedback').should("have.text", "Dieses Feld wird benötigt"))
+        expect(cy.get('div[name="city"] > .invalid-feedback').should("have.text", "Dieses Feld wird benötigt"))
+        expect(cy.get('div[name="email"] > .invalid-feedback').should("have.text", "Dieses Feld wird benötigt"))
+        expect(cy.get('div[name="telephone_private"] > .invalid-feedback').should("have.text", "Dieses Feld wird benötigt"))
+        expect(cy.get('div[name="telephone_mobile"] > .invalid-feedback').should("have.text", "Dieses Feld wird benötigt"))
+        expect(cy.get('div[name="telephone_business"] > .invalid-feedback').should("have.text", "Dieses Feld wird benötigt"))
+    })
+    it('see an error message on save if email format is invalid', () => {
+        cy.get('div[name="email"] > .cornered').clear().type("wrongemailformat")
+        cy.get('.row > :nth-child(2) > :nth-child(6)').click()
+        expect(cy.get('div[name="email"] > .invalid-feedback').should("have.text", "Bitte geben Sie eine valide E-Mail ein"))
+    })
+    it('see an error message on save if phone number format is invalid', () => {
+        cy.get('div[name="telephone_private"] > .cornered').clear().type("1234")
+        cy.get('div[name="telephone_mobile"] > .cornered').clear().type("1234")
+        cy.get('div[name="telephone_business"] > .cornered').clear().type("1234")
+        cy.get('.row > :nth-child(2) > :nth-child(6)').click()
+        expect(cy.get('div[name="telephone_private"] > .invalid-feedback').should("have.text", "Bitte geben Sie eine valide Telefonnummer ein"))
+        expect(cy.get('div[name="telephone_mobile"] > .invalid-feedback').should("have.text", "Bitte geben Sie eine valide Telefonnummer ein"))
+        expect(cy.get('div[name="telephone_business"] > .invalid-feedback').should("have.text", "Bitte geben Sie eine valide Telefonnummer ein"))
+        cy.get('div[name="telephone_private"] > .cornered').clear().type("abcd")
+        cy.get('div[name="telephone_mobile"] > .cornered').clear().type("abcd")
+        cy.get('div[name="telephone_business"] > .cornered').clear().type("abcd")
+        cy.get('.row > :nth-child(2) > :nth-child(6)').click()
+        expect(cy.get('div[name="telephone_private"] > .invalid-feedback').should("have.text", "Bitte geben Sie eine valide Telefonnummer ein"))
+        expect(cy.get('div[name="telephone_mobile"] > .invalid-feedback').should("have.text", "Bitte geben Sie eine valide Telefonnummer ein"))
+        expect(cy.get('div[name="telephone_business"] > .invalid-feedback').should("have.text", "Bitte geben Sie eine valide Telefonnummer ein"))
+    })
+    it('see an error message when content fails to load', () => {
+        cy.server()
+        cy.route({ url: '/customers/1', status: 500, response: {} })
+        cy.visit('/customers/1')
+        cy.url().should('eq', 'http://localhost:3000/customers/1')
+        cy.get('.fade').should('have.text', 'Laden der Daten fehlgeschlagen')
     })
 })
